@@ -5,17 +5,18 @@ class Player
 
   attr_reader :x, :y, :score
 
-  def initialize(window, x, y)
-    @window = window
+  def initialize(x, y)
     @score = 0
-    reset(x, y)
+    @initial_x = x
+    @initial_y = y
+    reset
   end
 
   def update
   end
 
   def draw
-    @window.draw_quad(
+    $window.draw_quad(
       @x - WIDTH / 2, @y - HEIGHT / 2, Gosu::Color::WHITE,
       @x + WIDTH / 2, @y - HEIGHT / 2, Gosu::Color::WHITE,
       @x + WIDTH / 2, @y + HEIGHT / 2, Gosu::Color::WHITE,
@@ -23,9 +24,9 @@ class Player
     )
   end
 
-  def reset(new_x, new_y)
-    @x = new_x
-    @y = new_y
+  def reset
+    @x = @initial_x
+    @y = @initial_y
   end
 
   def move_up
@@ -34,8 +35,8 @@ class Player
   end
 
   def move_down
-    @y += 5
-    @y = [@window.height - HEIGHT / 2, @y].min
+    @y += SPEED
+    @y = [$window.height - HEIGHT / 2, @y].min
   end
 
   def hits?(object)
